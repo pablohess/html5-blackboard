@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>blackboard</title>
+
+<link type="text/css" href="css/style.css" rel="stylesheet">
+<link href='http://fonts.googleapis.com/css?family=Gochi+Hand' rel='stylesheet' type='text/css'>
+
+</head>
+<body onload="initBlackboard()">
+	<div id="main">
+		<div id="canvasElements">
+			<canvas id="canvas1" width="1024" height="680" class="screenBack"></canvas>
+			<canvas id="canvas2" width="1024" height="680" class="screenBackHidden"></canvas>
+			<canvas id="canvas3" width="1024" height="680" class="screenBackHidden"></canvas>
+		</div>
+		<canvas id="screen-front" width="1024" height="680" class="screenFront" onmousemove="blackboardMove(event)"
+				onmouseup="blackboardUp(event)" onmousedown="blackboardDown(event)"></canvas>
+		
+		<figure id="blackboard" style="position: relative;">
+			<img id="blackboardImage" alt="blackboard" src="img/blackboard.jpeg">
+			<input id="textInput" type="text" onmouseup="blackboardUp(event)" onkeypress="textInputCheckEnter(event)" value="ABCD"/>
+			<!-- right side -->
+			<nav id="rightSide">
+				<ul>
+					<li><a href="#" onclick="changeTo(1, true)" id="menu1">First</a></li>
+					<li><a href="#" onclick="changeTo(2, true)" id="menu2">Second</a></li>
+					<li><a href="#" onclick="changeTo(3, true)" id="menu3">Third</a></li>
+				</ul>
+			</nav>
+		</figure>
+		
+		<!-- left side -->
+		<figure id="hand"><img alt="hand with chalk" src="img/handWithChalk.png" onclick="handClick(event)"></figure>
+		<figure id="ruler"><img alt="ruler" src="img/ruler.png" onclick="rulerClick(event)"></figure>
+		<figure id="circle"><img alt="circle" src="img/circle.png" onclick="circleClick(event)"></figure>
+		<figure id="sponge"><img id="spongeImage" alt="sponge" src="img/sponge.png" onclick="spongeClick(event)"></figure>
+		<figure id="text"><img alt="text" src="img/abcd.png" onclick="textClick(event)"></figure>
+
+		<!-- bottom -->
+		<section id="chalks">
+			<figure id="chalkWhite" class="chalk"><img alt="white chalk" src="img/chalkWhite.png" onclick="changeColor('#ffffff')"></figure>
+			<figure id="chalkBrown" class="chalk"><img alt="brown chalk" src="img/chalkBrown.png" onclick="changeColor('#744a08')"></figure>
+			<figure id="chalkLightBrown" class="chalk"><img alt="light brown chalk" src="img/chalkLightBrown.png" onclick="changeColor('#f1bf9e')"></figure>
+			<figure id="chalkGreen" class="chalk"><img alt="green chalk" src="img/chalkGreen.png" onclick="changeColor('#55ff55')"></figure>
+			<figure id="chalkBlue" class="chalk"><img alt="blue chalk" src="img/chalkBlue.png" onclick="changeColor('#2b22ff')"></figure>
+			<figure id="chalkPurple" class="chalk"><img alt="purple chalk" src="img/chalkPurple.png" onclick="changeColor('#613ed6')"></figure>
+			<figure id="chalkPink" class="chalk"><img alt="pink chalk" src="img/chalkPink.png" onclick="changeColor('#e822bf')"></figure>
+			<figure id="chalkOrange" class="chalk"><img alt="orange chalk" src="img/chalkOrange.png" onclick="changeColor('#f89e11')"></figure>
+		</section>
+	</div>
+	<script src="js/blackboard.js"></script>
+</body>
+</html>
