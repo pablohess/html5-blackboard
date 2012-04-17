@@ -7,8 +7,15 @@ var lineWidth = 4;
 var xLast = -1;
 var yLast = -1;
 var selectedBlackboard = 1;
+var numberOfBlackboards = 3;
 var canvasBack = document.getElementById('canvas1');
 var canvasFront = document.getElementById('screen-front');
+
+var KEY_ENTER = 13;
+var KEY_LEFT_ARROW = 37;
+var KEY_UP_ARROW = 38;
+var KEY_RIGHT_ARROW = 39;
+var KEY_DOWN_ARROW = 40;
 
 var changeTo = function(boardNumber, animation) {
 	// menu
@@ -18,7 +25,7 @@ var changeTo = function(boardNumber, animation) {
 	
 	// canvas
 	canvasBack = document.getElementById('canvas' + boardNumber);
-	for (i=1; i<=3; i++) {
+	for (i=1; i<=numberOfBlackboards; i++) {
 		document.getElementById("canvas" + i).setAttribute("class" , "screenBackHidden");
 	}
 	
@@ -33,16 +40,43 @@ var changeTo = function(boardNumber, animation) {
 	// background
 	selectedBlackboard = boardNumber;
 	if (animation) {
-		if (document.getElementById('blackboardImage').className == 'spinHorizontalForwards') {
+		if (document.getElementById('blackboardImage').className == 'spinHorizontalForwards'
+			|| document.getElementById('blackboardImage').className == 'rotateBackground') {
 			document.getElementById('blackboardImage').className ='spinHorizontalBackwards';
+			localStorage.setItem('blackboardPosition', '0deg');
 		} else {
 			document.getElementById('blackboardImage').className ='spinHorizontalForwards';
+			localStorage.setItem('blackboardPosition', '180deg');
+		}
+	}
+}
+
+var keyPressed = function(event) {
+	if (document.getElementById("textInput").className == "inputHidden") {
+		console.log(selectedBlackboard);
+		if (event.keyCode == KEY_LEFT_ARROW || event.keyCode == KEY_UP_ARROW) {
+			// back
+			if (selectedBlackboard <= 1) {
+				// go to the last blackboard
+				changeTo(numberOfBlackboards, true);
+			} else {
+				// show previous
+				changeTo(selectedBlackboard - 1, true);
+			}
+		} else if (event.keyCode == KEY_RIGHT_ARROW || event.keyCode == KEY_DOWN_ARROW) {
+			if (selectedBlackboard >= numberOfBlackboards) {
+				// back to the first blackboard
+				changeTo(1, true);
+			} else {
+				// show next
+				changeTo(selectedBlackboard + 1, true);
+			}
 		}
 	}
 }
 
 var textInputCheckEnter = function(event) {
-	if (event.keyCode == 13) { // Enter pressed
+	if (event.keyCode == KEY_ENTER) { // Enter pressed
 		var textInput = document.getElementById("textInput");
 		var contextBack = canvasBack.getContext('2d');
 		contextBack.font = "30pt 'Gochi Hand'";
@@ -51,8 +85,7 @@ var textInputCheckEnter = function(event) {
 		var yPos = textInput.offsetTop + 31;
 		contextBack.fillText(textInput.value, xPos, yPos); 
 
-		textInput.style.zIndex = "0";
-		textInput.style.display = "none";
+		textInput.className = "inputHidden";
 		
 		saveToLocaleStorage();
 	}
@@ -121,8 +154,7 @@ var blackboardMove = function(event) {
 			contextBack.clearRect(x1+xDiff/2,y1+yDiff/2,spongeImage.width-xDiff,spongeImage.height-yDiff);
 		} else if (drawMode == "text") {
 			var textInput = document.getElementById("textInput");
-			textInput.style.zIndex = "30";
-			textInput.style.display = "block";
+			textInput.className = "inputVisible";
 			var xNow = getX(event);
 			var yNow = getY(event);
 			if (yNow + textInput.clientHeight > canvasFront.height) {
@@ -191,7 +223,7 @@ function getY(event) {
 function initBlackboard() {
 	// blackboard
 	var canvasElements=new Array();
-	for (i=1; i<=3; i++) {
+	for (i=1; i<=numberOfBlackboards; i++) {
 		(function(number) {
 			var localStorageImage = new Image();
 		    localStorageImage.addEventListener("load", function (event) {
@@ -210,15 +242,21 @@ function initBlackboard() {
     	document.getElementById("textInput").style.color = color;
     }
     
+	// background
+	var background = document.getElementById('blackboardImage');
+	if (localStorage.getItem('blackboardPosition') == '180deg') {
+		background.className = 'rotateBackground';
+	}
+	
     // menu
     if (localStorage.getItem('blackboardMenu')) {
-    	selectedBlackboard = localStorage.getItem('blackboardMenu');
+    	selectedBlackboard = parseInt(localStorage.getItem('blackboardMenu'));
     }
     changeTo(selectedBlackboard, false);
 }
 
 function saveToLocaleStorage() {
-	for (i=1; i<=3; i++) {
+	for (i=1; i<=numberOfBlackboards; i++) {
 		localStorage.setItem('blackboard' + i, document.getElementById('canvas' + i).toDataURL('image/png'));
 	}
 }

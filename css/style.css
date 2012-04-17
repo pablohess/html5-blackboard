@@ -19,6 +19,11 @@ body {
 	position: relative;
 }
 
+.rotateBackground {
+	-moz-transform: rotateX(180deg);
+	-moz-transform-origin: 0% 50%;
+}
+
 #chalks {
 	margin-left: 80px;
 }
@@ -150,7 +155,6 @@ body {
 }
 
 #textInput {
-	display: none;
 	font-family: 'Gochi Hand', 'Comic Sans', 'Comic Sans MS', cursive;
 	font-size: 40px;
 	color: white;
@@ -160,6 +164,16 @@ body {
 	top: 10px;
 	left: 10px;
 	width: 200px;
+}
+
+.inputHidden {
+	display: none;
+	z-index: 0;
+}
+
+.inputVisible {
+	display: block;
+	z-index: 30;
 }
 
 .spinHorizontalForwards, .spinHorizontalBackwards {

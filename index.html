@@ -8,7 +8,7 @@
 <link href='http://fonts.googleapis.com/css?family=Gochi+Hand' rel='stylesheet' type='text/css'>
 
 </head>
-<body onload="initBlackboard()">
+<body onload="initBlackboard()" onkeypress="keyPressed(event)">
 	<div id="main">
 		<div id="canvasElements">
 			<canvas id="canvas1" width="1024" height="680" class="screenBack"></canvas>
@@ -19,8 +19,8 @@
 				onmouseup="blackboardUp(event)" onmousedown="blackboardDown(event)"></canvas>
 		
 		<figure id="blackboard" style="position: relative;">
-			<img id="blackboardImage" alt="blackboard" src="img/blackboard.jpeg">
-			<input id="textInput" type="text" onmouseup="blackboardUp(event)" onkeypress="textInputCheckEnter(event)" value="ABCD"/>
+			<img id="blackboardImage" alt="blackboard" src="img/blackboard.jpg">
+			<input id="textInput" type="text" class="inputHidden" onmouseup="blackboardUp(event)" onkeypress="textInputCheckEnter(event)" value="ABCD"/>
 			<!-- right side -->
 			<nav id="rightSide">
 				<ul>
